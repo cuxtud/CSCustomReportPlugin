@@ -42,6 +42,7 @@ class CscustomreportPlugin extends Plugin {
 
         String stYear
         String stMonth
+        String stDate
 
         if (add) {
             if (month < 12) {
