@@ -1,0 +1,88 @@
+<style>
+    .custom-heading {
+        font-weight:bold!important;
+        margin-bottom:15px;
+    }
+    .custom-footer {
+        font-weight:bold;
+    }
+
+    .custom-label {
+        font-size: 1rem;
+    }
+    .custom-border-bottom {
+        border-bottom: 1px solid #999999;
+    }
+
+    #cs-vm-financial h2 {
+        border-bottom: 1px solid #ddd;
+        margin: 10px 0 20px;
+        padding: 0 0 5px;
+    }
+
+    th, td {line-height:32px!important;padding-top:5px;}
+</style>
+
+<div id="cs-vm-financial">
+
+    <div class="info">
+        <p>Start Date: {{report.header.0.dataMap.startDate}}</p>
+        <p>End Date: {{report.header.0.dataMap.endDate}}</p>
+    </div>
+
+    <div class="intro-stats">
+        <h2>Stats</h2>
+        <div class="count-stats">
+
+            <div class="stats-container">
+                <span class="big-stat">
+                    {{report.header.0.dataMap.instanceCount}}
+                </span>
+                <span class="stat-label">
+                    Instances
+                </span>
+            </div>
+            <div class="stats-container">
+                <span class="big-stat">
+                    ${{report.header.0.dataMap.totalCost}}
+                </span>
+                <span class="stat-label">
+                    Total Cost
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <h2>Vm Financials</h2>
+
+	<div id="report-main">
+		<table class="table table-striped custom-border-bottom">
+            <thead>
+            <th class="custom-heading" style="width:25%">VM Name</th>
+			<th class="custom-heading" style="width:25%">VMGuestOS</th>
+			<th class="custom-heading" style="width:25%">Cloud</th>
+			<th class="custom-heading" style="width:5%">CPU</th>
+			<th class="custom-heading" style="width:5%">Memory</th>
+			<th class="custom-heading" style="width:10%">Storage(GB)</th>
+			<th class="custom-heading" style="width:10%">Cost</th>
+            <th class="custom-heading" style="width:10%;">Platform_Service_Tier</th>
+            <th class="custom-heading" style="width:10%;">Support_Owner_Email</th>
+            </thead>
+            <tbody>
+            {{#each report.main}}
+                <tr>
+                    <td>{{dataMap.instanceName}}</td>
+                    <td>{{dataMap.guestOs}}</td>
+                    <td>{{dataMap.cloud}}</td>
+                    <td>{{dataMap.cores}}</td>
+                    <td>{{dataMap.memory}}</td>
+                    <td>{{dataMap.storage}}</td>
+                    <td>{{dataMap.totalCost}}</td>
+                    <td>{{dataMap.platformServiceTier}}</td>
+                    {{!-- <td>{{dataMap.supportOwnerEmail}}</td> --}}
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+	</div>
+</div>
