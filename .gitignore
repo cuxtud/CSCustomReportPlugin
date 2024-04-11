@@ -20,6 +20,8 @@
 
 # project release file
 /*.war
+/build/*
+/.gradle/*
 
 # plugin release files
 /*.zip
