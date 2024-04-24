@@ -193,28 +193,28 @@ class CscustomreportReportProvider extends AbstractReportProvider{
 			observable.map { resultRow -> 
 				def Map<String,Object> data = [:]
 				data = [
-					instanceName: resultRow.name,
-					guestOs: resultRow.os_name,
+					Server_Name: resultRow.name,
+					Guest_OS: resultRow.os_name,
 					cloud: resultRow.zone_name,
 					cores: resultRow.max_cores,
 					memory: resultRow.max_memory,
 					storage: resultRow.max_storage,
 					totalCost: resultRow.actual_total_cost.round(2),
-					platformServiceTier: resultRow.platform_Service_Tier,
-					supportOwnerEmail: resultRow.support_Owner_Email,
-					region: resultRow.region,
-					aPCID: resultRow.aPCID,
-					appAbbreviation: resultRow.app_Abbreviation,
-					division: resultRow.division,
-					siteCode: resultRow.site_Code,
-					eNV: resultRow.eNV,
-					dMZ: resultRow.dMZ,
-					primaryApplication: resultRow.primary_Application,
-					gbu: resultRow.gbu,
-					developmentTeam: resultRow.development_Team,
-					tYPE: resultRow.tYPE,
-					ifUNCTION: resultRow.ifUNCTION,
-					rEGULATION: resultRow.rEGULATION
+					Platform_Service_Tier: resultRow.platform_Service_Tier,
+					Support_Owner_Email: resultRow.support_Owner_Email,
+					Region: resultRow.region,
+					ApCID: resultRow.aPCID,
+					App_Abbreviation: resultRow.app_Abbreviation,
+					Division: resultRow.division,
+					Site_Code: resultRow.site_Code,
+					Env: resultRow.eNV,
+					DMZ: resultRow.dMZ,
+					Primary_Application: resultRow.primary_Application,
+					GBU: resultRow.gbu,
+					Development_Team: resultRow.development_Team,
+					Type: resultRow.tYPE,
+					Function: resultRow.ifUNCTION,
+					Regulation: resultRow.rEGULATION
 				]
 				instanceCount ++
 				totalCostSum += resultRow.actual_total_cost
