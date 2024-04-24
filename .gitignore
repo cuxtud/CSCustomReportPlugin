@@ -20,12 +20,13 @@
 
 # project release file
 /*.war
-/build/
-/.gradle/
+/build/*
+/.gradle/*
 
 # plugin release files
 /*.zip
 /plugin.xml
+
 
 # older plugin install locations
 /plugins

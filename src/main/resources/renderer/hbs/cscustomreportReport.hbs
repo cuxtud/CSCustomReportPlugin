@@ -63,10 +63,23 @@
 			<th class="custom-heading" style="width:25%">Cloud</th>
 			<th class="custom-heading" style="width:5%">CPU</th>
 			<th class="custom-heading" style="width:5%">Memory</th>
-			<th class="custom-heading" style="width:10%">Storage(GB)</th>
-			<th class="custom-heading" style="width:10%">Cost</th>
-            <th class="custom-heading" style="width:10%;">Platform_Service_Tier</th>
-            <th class="custom-heading" style="width:10%;">Support_Owner_Email</th>
+			<th class="custom-heading" style="width:5%">Storage(GB)</th>
+			<th class="custom-heading" style="width:5%">Cost</th>
+            <th class="custom-heading" style="width:5%">Region</th>
+            <th class="custom-heading" style="width:5%">Primary Application</th>
+            <th class="custom-heading" style="width:5%">ApCID</th>
+            <th class="custom-heading" style="width:5%">App Abbreviation</th>
+            <th class="custom-heading" style="width:10%;">Platform Service Tier</th>
+            <th class="custom-heading" style="width:5%">GBU</th>
+            <th class="custom-heading" style="width:5%">Division</th>
+            <th class="custom-heading" style="width:5%">Development Team</th>
+            <th class="custom-heading" style="width:10%;">Support Owner Email</th>
+            <th class="custom-heading" style="width:5%">Site Code</th>
+            <th class="custom-heading" style="width:5%">Type</th>
+            <th class="custom-heading" style="width:5%">Env</th>
+            <th class="custom-heading" style="width:5%">Function</th>
+            <th class="custom-heading" style="width:5%">DMZ </th>
+            <th class="custom-heading" style="width:5%">Regulation</th>
             </thead>
             <tbody>
             {{#each report.main}}
@@ -78,8 +91,21 @@
                     <td>{{dataMap.memory}}</td>
                     <td>{{dataMap.storage}}</td>
                     <td>{{dataMap.totalCost}}</td>
+                    <td>{{dataMap.region}}</td>
+                    <td>{{dataMap.primaryApplication}}</td>
+                    <td>{{dataMap.aPCID}}</td>
+                    <td>{{dataMap.appAbbreviation}}</td>
                     <td>{{dataMap.platformServiceTier}}</td>
-                    {{!-- <td>{{dataMap.supportOwnerEmail}}</td> --}}
+                    <td>{{dataMap.gbu}}</td>
+                    <td>{{dataMap.division}}</td>
+                    <td>{{dataMap.developmentTeam}}</td>
+                    <td>{{dataMap.supportOwnerEmail}}</td>
+                    <td>{{dataMap.siteCode}}</td>
+                    <td>{{dataMap.tYPE}}</td>
+                    <td>{{dataMap.eNV}}</td>
+                    <td>{{dataMap.ifUNCTION}}</td>
+                    <td>{{dataMap.dMZ}}</td>
+                    <td>{{dataMap.rEGULATION}}</td>
                 </tr>
             {{/each}}
             </tbody>

@@ -182,9 +182,11 @@ class CscustomreportReportProvider extends AbstractReportProvider{
             }
 
 			def accountName = reportResult.getAccount().getName()
-			repResults = new Sql(dbConnection).rows("SELECT i.id, i.display_name AS name, i.max_cores, ROUND(i.max_memory / 1024 / 1024 / 1024) AS max_memory, ROUND(i.max_storage / 1024 / 1024 / 1024) AS max_storage, os.name AS os_name, cz.name AS zone_name, SUM(ai.actual_total_cost) AS actual_total_cost, mt_abc.value AS abc_value FROM instance AS i JOIN container AS c ON i.id = c.instance_id JOIN compute_server AS cs ON c.server_id = cs.id JOIN os_type AS os ON cs.server_os_id = os.id JOIN compute_zone AS cz ON cs.zone_id = cz.id JOIN account_invoice AS ai ON i.id = ai.instance_id JOIN instance_metadata_tag AS imt_abc ON i.id = imt_abc.instance_metadata_id JOIN metadata_tag AS mt_abc ON imt_abc.metadata_tag_id = mt_abc.id WHERE ai.ref_type = 'Instance' AND ai.account_name = '"+ accountName + "' AND ai.start_date >= "+ startDate +" AND ai.end_date < " + endDate + " AND ai.actual_total_cost > 0 AND mt_abc.name = 'Platform_Service_Tier' GROUP BY i.id, os.name, cz.name, mt_abc.value LIMIT 8000;")
-		} finally {
-			morpheus.report.releaseDatabaseConnection(dbConnection)
+			//repResults = new Sql(dbConnection).rows("SELECT i.id, i.display_name AS name, i.max_cores, ROUND(i.max_memory / 1024 / 1024 / 1024) AS max_memory, ROUND(i.max_storage / 1024 / 1024 / 1024) AS max_storage, os.name AS os_name, cz.name AS zone_name, SUM(ai.actual_total_cost) AS actual_total_cost, mt_abc.value AS abc_value FROM instance AS i JOIN container AS c ON i.id = c.instance_id JOIN compute_server AS cs ON c.server_id = cs.id JOIN os_type AS os ON cs.server_os_id = os.id JOIN compute_zone AS cz ON cs.zone_id = cz.id JOIN account_invoice AS ai ON i.id = ai.instance_id JOIN instance_metadata_tag AS imt_abc ON i.id = imt_abc.instance_metadata_id JOIN metadata_tag AS mt_abc ON imt_abc.metadata_tag_id = mt_abc.id WHERE ai.ref_type = 'Instance' AND ai.account_name = '"+ accountName + "' AND ai.start_date >= "+ startDate +" AND ai.end_date < " + endDate + " AND ai.actual_total_cost > 0 AND mt_abc.name = 'Platform_Service_Tier' GROUP BY i.id, os.name, cz.name, mt_abc.value LIMIT 8000;")
+			// repResults = new Sql(dbConnection).rows("SELECT i.id, i.display_name AS name, i.max_cores, ROUND(i.max_memory / 1024 / 1024 / 1024) AS max_memory, ROUND(i.max_storage / 1024 / 1024 / 1024) AS max_storage, os.name AS os_name, cz.name AS zone_name, SUM(ai.actual_total_cost) AS actual_total_cost, MAX(CASE WHEN mt.name = 'Platform_Service_Tier' THEN mt.value END) AS platform_Service_Tier, MAX(CASE WHEN mt.name = 'Support_Owner_Email' THEN mt.value END) AS support_Owner_Email FROM instance AS i JOIN container AS c ON i.id = c.instance_id JOIN compute_server AS cs ON c.server_id = cs.id JOIN os_type AS os ON cs.server_os_id = os.id JOIN compute_zone AS cz ON cs.zone_id = cz.id JOIN account_invoice AS ai ON i.id = ai.instance_id JOIN instance_metadata_tag AS imt ON i.id = imt.instance_metadata_id JOIN metadata_tag AS mt ON imt.metadata_tag_id = mt.id WHERE ai.ref_type = 'Instance' AND ai.account_name = '"+ accountName + "' AND ai.start_date >= "+ startDate +" AND ai.end_date < "+ endDate +" AND ai.actual_total_cost > 0 AND mt.name = 'Platform_Service_Tier' GROUP BY i.id, os.name, cz.name LIMIT 8000;")
+			repResults = new Sql(dbConnection).rows("SELECT i.id, i.display_name AS name, i.max_cores, ROUND(i.max_memory / 1024 / 1024 / 1024) AS max_memory, ROUND(i.max_storage / 1024 / 1024 / 1024) AS max_storage, os.name AS os_name, cz.name AS zone_name, ai.total_cost AS actual_total_cost, MAX(CASE WHEN mt.name = 'Platform_Service_Tier' THEN mt.value END) AS platform_Service_Tier, MAX(CASE WHEN mt.name = 'Support_Owner_Email' THEN mt.value END) AS support_Owner_Email, MAX(CASE WHEN mt.name = 'Region' THEN mt.value END) AS region, MAX(CASE WHEN mt.name = 'Primary_Application' THEN mt.value END) AS primary_Application, MAX(CASE WHEN mt.name = 'ApCID' THEN mt.value END) AS aPCID, MAX(CASE WHEN mt.name = 'App_Abbreviation' THEN mt.value END) AS app_Abbreviation, MAX(CASE WHEN mt.name = 'GBU' THEN mt.value END) AS gbu, MAX(CASE WHEN mt.name = 'Division' THEN mt.value END) AS division, MAX(CASE WHEN mt.name = 'Development_Team' THEN mt.value END) AS development_Team, MAX(CASE WHEN mt.name = 'Site_Code' THEN mt.value END) AS site_Code, MAX(CASE WHEN mt.name = 'Type' THEN mt.value END) AS tYPE, MAX(CASE WHEN mt.name = 'Env' THEN mt.value END) AS eNV, MAX(CASE WHEN mt.name = 'Function' THEN mt.value END) AS ifUNCTION, MAX(CASE WHEN mt.name = 'DMZ' THEN mt.value END) AS dMZ, MAX(CASE WHEN mt.name = 'Regulation' THEN mt.value END) AS rEGULATION FROM instance AS i JOIN container AS c ON i.id = c.instance_id JOIN compute_server AS cs ON c.server_id = cs.id JOIN os_type AS os ON cs.server_os_id = os.id JOIN compute_zone AS cz ON cs.zone_id = cz.id JOIN (SELECT ai.instance_id, SUM(ai.actual_total_cost) AS total_cost FROM account_invoice AS ai WHERE ai.ref_type = 'Instance' AND ai.account_name = '"+ accountName + "' AND ai.start_date >= "+ startDate +" AND ai.end_date < "+ endDate +" AND ai.actual_total_cost > 0 GROUP BY ai.instance_id) AS ai ON i.id = ai.instance_id JOIN instance_metadata_tag AS imt ON i.id = imt.instance_metadata_id JOIN metadata_tag AS mt ON imt.metadata_tag_id = mt.id WHERE mt.name IN ('Platform_Service_Tier', 'Support_Owner_Email', 'Region', 'Primary_Application', 'ApCID', 'App_Abbreviation', 'GBU', 'Division', 'Development_Team', 'Site_Code', 'Type', 'Env', 'Function', 'DMZ', 'Regulation') GROUP BY i.id, os.name, cz.name LIMIT 8000;")
+			} finally {
+				morpheus.report.releaseDatabaseConnection(dbConnection)
 		}
 
 		Observable<GroovyRowResult> observable = Observable.fromIterable(repResults) as Observable<GroovyRowResult>
@@ -198,8 +200,21 @@ class CscustomreportReportProvider extends AbstractReportProvider{
 					memory: resultRow.max_memory,
 					storage: resultRow.max_storage,
 					totalCost: resultRow.actual_total_cost.round(2),
-					platformServiceTier: resultRow.abc_value
-					// supportOwnerEmail: resultRow.abc_value
+					platformServiceTier: resultRow.platform_Service_Tier,
+					supportOwnerEmail: resultRow.support_Owner_Email,
+					region: resultRow.region,
+					aPCID: resultRow.aPCID,
+					appAbbreviation: resultRow.app_Abbreviation,
+					division: resultRow.division,
+					siteCode: resultRow.site_Code,
+					eNV: resultRow.eNV,
+					dMZ: resultRow.dMZ,
+					primaryApplication: resultRow.primary_Application,
+					gbu: resultRow.gbu,
+					developmentTeam: resultRow.development_Team,
+					tYPE: resultRow.tYPE,
+					ifUNCTION: resultRow.ifUNCTION,
+					rEGULATION: resultRow.rEGULATION
 				]
 				instanceCount ++
 				totalCostSum += resultRow.actual_total_cost

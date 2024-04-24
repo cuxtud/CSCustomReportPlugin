@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Plugin-Class: com.example.CscustomreportPlugin
-Plugin-Version: 0.1.0
+Plugin-Version: 0.1.1
 Morpheus-Name: CSCustomReport
 Morpheus-Organization: morpheus
 Morpheus-Code: cscr
